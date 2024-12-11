@@ -33,13 +33,26 @@ namespace Circle_2.Hotkeys
             HotKeyModifier hotKeyModifier,
             Key key)
         {
-            return RegisterHotKey(helper.Handle, HOTKEY_ID, (uint)hotKeyModifier, (int)KeyInterop.VirtualKeyFromKey(key));
+            return RegisterHotKey(helper.Handle, hotKeyModifier, key);
+        }
+
+       public static bool RegisterHotKey(
+            IntPtr hWnd,
+            HotKeyModifier hotKeyModifier,
+            Key key)
+        {
+            return RegisterHotKey(hWnd, HOTKEY_ID, (uint)hotKeyModifier, (int)KeyInterop.VirtualKeyFromKey(key));
         }
 
 
         public static bool UnregisterHotKey(WindowInteropHelper helper)
         {
-            return UnregisterHotKey(helper.Handle, HOTKEY_ID);
+            return UnregisterHotKey(helper.Handle);
+        }
+
+        public static bool UnregisterHotKey(IntPtr hWnd)
+        {
+            return UnregisterHotKey(hWnd, HOTKEY_ID);
         }
     }
 }

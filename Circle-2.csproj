@@ -9,4 +9,9 @@
     <UseWPF>true</UseWPF>
   </PropertyGroup>
 
+  <ItemGroup>
+    <PackageReference Include="NHotkey" Version="3.0.0" />
+    <PackageReference Include="NHotkey.Wpf" Version="3.0.0" />
+  </ItemGroup>
+
 </Project>
