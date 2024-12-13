@@ -19,6 +19,7 @@ namespace Circle_2.Utils
         private static extern bool GetWindowRect(IntPtr hWnd, ref RECT lpRect);
 
         private const int WINDOW_RESTORE = 9;
+        private const int WINDOW_MAXIMIZE = 3;
 
 
         public void MoveWindow(IntPtr hWnd, int left, int top, int width, int height)
@@ -46,6 +47,11 @@ namespace Circle_2.Utils
             }
 
             return Rectangle.CreateFromRECT(rect);
+        }
+
+        public bool MaximizeWindow(IntPtr windowHandle)
+        {
+            return ShowWindow(windowHandle, WINDOW_MAXIMIZE);
         }
     }
 }
