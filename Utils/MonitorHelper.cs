@@ -1,42 +1,28 @@
 ﻿using System.Runtime.InteropServices;
 using Circle_2.Models;
 using System.Windows;
+using System.Threading;
+using Circle_2.Utils.Models;
 
 namespace Circle_2.Utils
 {
     public class MonitorHelper
     {
+
+        private delegate bool MonitorEnumProc(IntPtr hMonitor, IntPtr hdcMonitor, IntPtr lprcMonitor, IntPtr dwData);
+
         [DllImport("user32.dll", CharSet = CharSet.Auto)]
-        public static extern bool GetMonitorInfo(IntPtr hMonitor, ref MONITORINFO lpmi);
+        private static extern bool GetMonitorInfo(IntPtr hMonitor, ref MONITORINFO lpmi);
 
         [DllImport("user32.dll")]
-        public static extern IntPtr MonitorFromWindow(IntPtr hwnd, uint dwFlags);
+        private static extern IntPtr MonitorFromWindow(IntPtr hwnd, uint dwFlags);
 
         [DllImport("user32.dll", SetLastError = true)]
         private static extern bool EnumDisplayMonitors(IntPtr hdc, IntPtr lprcClip, MonitorEnumProc lpfnEnum, IntPtr dwData);
 
-        private delegate bool MonitorEnumProc(IntPtr hMonitor, IntPtr hdcMonitor, IntPtr lprcMonitor, IntPtr dwData);
 
-
-        public const uint FLAG_MONITOR_IS_PRIMARY = 1;
-
-        [StructLayout(LayoutKind.Sequential)]
-        public struct RECT
-        {
-            public int Left;
-            public int Top;
-            public int Right;
-            public int Bottom;
-        }
-
-        [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Auto)]
-        public class MONITORINFO
-        {
-            public int cbSize = Marshal.SizeOf(typeof(MONITORINFO));
-            public RECT rcMonitor = new RECT();
-            public RECT rcWork = new RECT();
-            public uint dwFlags = 0;
-        }
+        private const uint FLAG_MONITOR_IS_PRIMARY = 0x1;
+        private const uint MONITOR_DEFAULT_TO_NEAREST = 0x2;
 
         public List<MonitorInfo> GetMonitorsInfo()
         {
@@ -53,20 +39,8 @@ namespace Circle_2.Utils
                     (
                         hMonitor,
                         (monitorInfo.dwFlags & FLAG_MONITOR_IS_PRIMARY) != 0,
-                        new Rectangle
-                        (
-                           monitorInfo.rcMonitor.Left,
-                           monitorInfo.rcMonitor.Top,
-                           monitorInfo.rcMonitor.Right,
-                           monitorInfo.rcMonitor.Bottom
-                        ),
-                        new Rectangle
-                        (
-                            monitorInfo.rcWork.Left,
-                            monitorInfo.rcWork.Top,
-                            monitorInfo.rcWork.Right,
-                            monitorInfo.rcWork.Bottom
-                        )
+                        Rectangle.CreateFromRECT(monitorInfo.rcMonitor),
+                        Rectangle.CreateFromRECT(monitorInfo.rcWork)
                     ));
                 }
 
@@ -79,6 +53,68 @@ namespace Circle_2.Utils
             }
 
             return monitors;
+        }
+
+        public MonitorInfo GetCurrentMonitor(IntPtr windowHandle)
+        {
+            IntPtr monitorHandle = MonitorFromWindow(windowHandle, MONITOR_DEFAULT_TO_NEAREST);
+
+            if (monitorHandle == IntPtr.Zero)
+            {
+                throw new Exception(string.Format("Unable to get monitor for window with handle {0}", windowHandle));
+            }
+
+            MONITORINFO monitorInfo = new MONITORINFO { cbSize = Marshal.SizeOf(typeof(MONITORINFO)) };
+
+            if (!GetMonitorInfo(monitorHandle, ref monitorInfo))
+            {
+                throw new Exception(string.Format("Unable to get monitor info for monitor with handle {0}", monitorHandle));
+            }
+            return new MonitorInfo
+            (
+                monitorHandle,
+                (monitorInfo.dwFlags & FLAG_MONITOR_IS_PRIMARY) != 0,
+                new Rectangle
+                (
+                    monitorInfo.rcMonitor.Left,
+                    monitorInfo.rcMonitor.Top,
+                    monitorInfo.rcMonitor.Right,
+                    monitorInfo.rcMonitor.Bottom
+                ),
+                new Rectangle
+                (
+                    monitorInfo.rcWork.Left,
+                    monitorInfo.rcWork.Top,
+                    monitorInfo.rcWork.Right,
+                    monitorInfo.rcWork.Bottom
+                )
+            );
+        }
+
+        public MonitorInfo GetNextMonitor(MonitorInfo currentMonitorInfo)
+        {
+            var monitors = GetMonitorsInfo();
+            var currentMonitorIndex = 0;
+
+            foreach (MonitorInfo monitorInfo in monitors)
+            {
+                if (currentMonitorInfo.Handle >= monitorInfo.Handle) { break; }
+                currentMonitorIndex++;
+            }
+            return monitors[(currentMonitorIndex + 1) % monitors.Count];
+        }
+
+        public MonitorInfo GetPreviousMonitor(MonitorInfo currentMonitorInfo)
+        {
+            var monitors = GetMonitorsInfo();
+            var currentMonitorIndex = 0;
+
+            foreach (MonitorInfo monitorInfo in monitors)
+            {
+                if (currentMonitorInfo.Handle >= monitorInfo.Handle) { break; }
+                currentMonitorIndex++;
+            }
+            return monitors[(currentMonitorIndex - 1) % monitors.Count];
         }
     }
 }

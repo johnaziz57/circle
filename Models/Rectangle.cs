@@ -8,6 +8,7 @@ namespace Circle_2.Models
 {
     using System;
     using System.Runtime.InteropServices;
+    using Circle_2.Utils.Models;
     using static Circle_2.Utils.MonitorHelper;
 
     public class Rectangle
@@ -87,7 +88,7 @@ namespace Circle_2.Models
         /// <param name="width">The width of the rectangle.</param>
         /// <param name="height">The height of the rectangle.</param>
         /// <returns>True if equal; otherwise, false.</returns>
-        public bool IsEqual(int left, int top, int width, int height)
+        public bool Equals(int left, int top, int width, int height)
         {
             return Left == left && Top == top && Right == left + width && Bottom == top + height;
         }
