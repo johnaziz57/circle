@@ -21,5 +21,7 @@ namespace Circle_2
 
         public MainWindow()
         { }
+
+
     }
 }
