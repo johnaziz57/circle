@@ -1,6 +1,8 @@
 ﻿using System.Windows;
 using System.Windows.Shapes;
 using System.IO;
+using System.Windows.Input;
+using System.Windows.Controls;
 
 namespace Circle_2
 {
@@ -9,6 +11,9 @@ namespace Circle_2
     /// </summary>
     public partial class MainWindow : Window
     {
+        private bool isRecording = false;
+        private HashSet<Key> pressedKeys = new HashSet<Key>(); // To track pressed keys
+        private DateTime? lastRecordingTime = null;
 
         public MainWindow()
         {
@@ -70,6 +75,78 @@ namespace Circle_2
             return File.Exists(shortcutPath);
         }
 
+        private void RecordKeys(object sender, KeyEventArgs e)
+        {
+            if (!(sender is TextBox))
+            {
+                return;
+            }
+            TextBox textBox = (TextBox)sender;
+            // Start recording when TextBox is clicked
+            if (!isRecording)
+            {
+                isRecording = true;
+                lastRecordingTime = DateTime.Now;
+                pressedKeys.Clear();
+            }
 
+            // Prevent default handling of keys like Tab
+            e.Handled = true;
+
+            // Handle special keys: Enter and Escape
+            if (e.Key == Key.Enter)
+            {
+                // Save the recorded keys to the TextBox
+                textBox.Text = FormatShortcutKeys(pressedKeys);
+                ResetRecording();
+            }
+            else if (e.Key == Key.Escape || (DateTime.Now - (lastRecordingTime ?? DateTime.Now)).TotalMilliseconds  > 1000)
+            {
+                // Cancel recording and keep the previous value
+                ResetRecording();
+            }
+            else
+            {
+                // Add the key to the set if it's not already there
+                if (!pressedKeys.Contains(e.Key))
+                {
+                    pressedKeys.Add(e.Key);
+                    textBox.Text = FormatShortcutKeys(pressedKeys);
+                }
+            }
+        }
+
+        private void RemoveKeys(object sender, KeyEventArgs e)
+        {
+            // Optional: Remove keys that are released
+            if (!(sender is TextBox))
+            {
+                return;
+            }
+            TextBox textBox = (TextBox)sender;
+            pressedKeys.Remove(e.Key);
+            textBox.Text = FormatShortcutKeys(pressedKeys);
+        }
+
+        private string FormatShortcutKeys(HashSet<Key> keys)
+        {
+            // Convert the keys to a display-friendly string
+            List<string> keyNames = new();
+            foreach (var key in keys)
+            {
+                if (key == Key.LeftCtrl || key == Key.RightCtrl) keyNames.Add("Ctrl");
+                else if (key == Key.LeftAlt || key == Key.RightAlt) keyNames.Add("Alt");
+                else if (key == Key.LeftShift || key == Key.RightShift) keyNames.Add("Shift");
+                else keyNames.Add(key.ToString());
+            }
+
+            return string.Join(" + ", keyNames);
+        }
+
+        private void ResetRecording()
+        {
+            isRecording = false;
+            pressedKeys.Clear();
+        }
     }
 }

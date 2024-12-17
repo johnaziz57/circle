@@ -23,6 +23,8 @@ namespace Circle_2
             // Ensure TaskbarIcon is loaded
             trayIcon = (TaskbarIcon)FindResource("TrayIcon");
 
+            mainWindow = mainWindow ?? new MainWindow();
+            mainWindow.Show();
         }
 
         protected override void OnExit(ExitEventArgs e)
