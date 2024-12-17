@@ -17,7 +17,7 @@
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
-
+        <!-- TODO fix the images visible black border -->
         <!-- First Row -->
         <StackPanel Orientation="Horizontal" Grid.Row="0" Margin="5">
             <Image Source="Resources/to-left.png" Width="32" Height="32" Margin="4"/>
