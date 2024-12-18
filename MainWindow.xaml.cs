@@ -14,6 +14,7 @@ namespace Circle_2
         private bool isRecording = false;
         private HashSet<Key> pressedKeys = new HashSet<Key>(); // To track pressed keys
         private DateTime? lastRecordingTime = null;
+        private string textBoxValue = "";
 
         public MainWindow()
         {
@@ -77,6 +78,10 @@ namespace Circle_2
 
         private void RecordKeys(object sender, KeyEventArgs e)
         {
+            // TODO override all system wide hotkey presses
+            // TODO make it work with the rest of the fields
+            // TODO LWin + Direction doesn't work
+            // Apply the recording functions to all other TextBoxes
             if (!(sender is TextBox))
             {
                 return;
@@ -87,6 +92,7 @@ namespace Circle_2
             {
                 isRecording = true;
                 lastRecordingTime = DateTime.Now;
+                textBoxValue = textBox.Text;
                 pressedKeys.Clear();
             }
 
@@ -100,18 +106,23 @@ namespace Circle_2
                 textBox.Text = FormatShortcutKeys(pressedKeys);
                 ResetRecording();
             }
-            else if (e.Key == Key.Escape || (DateTime.Now - (lastRecordingTime ?? DateTime.Now)).TotalMilliseconds  > 1000)
+            else if (e.Key == Key.Escape)
             {
                 // Cancel recording and keep the previous value
-                ResetRecording();
+                AbortRecording(textBox);
             }
             else
             {
                 // Add the key to the set if it's not already there
+                if ((DateTime.Now - (lastRecordingTime ?? DateTime.Now)).TotalMilliseconds > 500)
+                {
+                    pressedKeys.Clear();
+                }
                 if (!pressedKeys.Contains(e.Key))
                 {
                     pressedKeys.Add(e.Key);
                     textBox.Text = FormatShortcutKeys(pressedKeys);
+                    lastRecordingTime = DateTime.Now;
                 }
             }
         }
@@ -147,6 +158,25 @@ namespace Circle_2
         {
             isRecording = false;
             pressedKeys.Clear();
+            textBoxValue = "";
+        }
+
+        private void AbortRecording(object sender, KeyboardFocusChangedEventArgs e)
+        {
+            if (!(sender is TextBox))
+            {
+                return;
+            }
+            AbortRecording((TextBox)sender);
+            e.Handled = true;
+        }
+
+        private void AbortRecording(TextBox textBox)
+        {
+            textBox.Text = textBoxValue;
+            isRecording = false;
+            pressedKeys.Clear();
+            textBoxValue = "";
         }
     }
 }
