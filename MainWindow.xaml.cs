@@ -3,6 +3,8 @@ using System.Windows.Shapes;
 using System.IO;
 using System.Windows.Input;
 using System.Windows.Controls;
+using Circle_2.Utils;
+using System.Diagnostics;
 
 namespace Circle_2
 {
@@ -14,6 +16,7 @@ namespace Circle_2
         private bool isRecording = false;
         private HashSet<Key> pressedKeys = new HashSet<Key>(); // To track pressed keys
         private DateTime? lastRecordingTime = null;
+        private KeyboardHelper keyboardHelper = new KeyboardHelper();
         private string textBoxValue = "";
 
         public MainWindow()
@@ -76,12 +79,25 @@ namespace Circle_2
             return File.Exists(shortcutPath);
         }
 
+        private void StartRecording(object sender, RoutedEventArgs e)
+        {
+            Trace.WriteLine("Record Key: " + e.ToString());
+            keyboardHelper.StartRecording((key) =>
+            {
+                Trace.WriteLine("Recieved: " + key);
+                // TODO record keys here
+                // TODO override all system wide hotkey presses
+                // TODO make it work with the rest of the fields
+                // TODO LWin + Direction doesn't work
+                // TODO Add `WM_SYSKEYDOWN 0x0104` to the recording Util
+                // Apply the recording functions to all other TextBoxes
+            });
+        }
+
         private void RecordKeys(object sender, KeyEventArgs e)
         {
-            // TODO override all system wide hotkey presses
-            // TODO make it work with the rest of the fields
-            // TODO LWin + Direction doesn't work
-            // Apply the recording functions to all other TextBoxes
+
+
             if (!(sender is TextBox))
             {
                 return;
@@ -95,7 +111,6 @@ namespace Circle_2
                 textBoxValue = textBox.Text;
                 pressedKeys.Clear();
             }
-
             // Prevent default handling of keys like Tab
             e.Handled = true;
 
@@ -113,11 +128,11 @@ namespace Circle_2
             }
             else
             {
-                // Add the key to the set if it's not already there
-                if ((DateTime.Now - (lastRecordingTime ?? DateTime.Now)).TotalMilliseconds > 500)
-                {
-                    pressedKeys.Clear();
-                }
+                //// Add the key to the set if it's not already there
+                //if ((DateTime.Now - (lastRecordingTime ?? DateTime.Now)).TotalMilliseconds > 500)
+                //{
+                //    pressedKeys.Clear();
+                //}
                 if (!pressedKeys.Contains(e.Key))
                 {
                     pressedKeys.Add(e.Key);
@@ -169,6 +184,7 @@ namespace Circle_2
             }
             AbortRecording((TextBox)sender);
             e.Handled = true;
+            keyboardHelper.StopRecording();
         }
 
         private void AbortRecording(TextBox textBox)
