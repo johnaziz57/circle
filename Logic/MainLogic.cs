@@ -1,10 +1,7 @@
-﻿using System.Runtime.InteropServices;
-using System.Threading;
-using System.Windows;
+﻿using System.Windows;
 using System.Windows.Input;
 using Circle_2.Models;
 using Circle_2.Utils;
-using Circle_2.Utils.Models;
 using NHotkey;
 using NHotkey.Wpf;
 

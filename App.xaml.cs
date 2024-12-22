@@ -1,5 +1,4 @@
-﻿using System.Drawing;
-using System.Windows;
+﻿using System.Windows;
 using Circle_2.Logic;
 using Hardcodet.Wpf.TaskbarNotification;
 

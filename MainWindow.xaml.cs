@@ -1,5 +1,4 @@
 ﻿using System.Windows;
-using System.Windows.Shapes;
 using System.IO;
 using System.Windows.Input;
 using System.Windows.Controls;
