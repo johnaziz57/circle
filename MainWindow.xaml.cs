@@ -120,7 +120,7 @@ namespace Circle_2
                 else
                 {
                     //// Add the key to the set if it's not already there
-                    if ((DateTime.Now - (lastRecordingTime ?? DateTime.Now)).TotalMilliseconds > 500)
+                    if ((DateTime.Now - (lastRecordingTime ?? DateTime.Now)).TotalMilliseconds > 1000)
                     {
                         ResetRecording(textBox);
                     }
