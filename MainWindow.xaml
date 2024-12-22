@@ -29,28 +29,32 @@
         <!-- Second Row -->
         <StackPanel Orientation="Horizontal" Grid.Row="1" Margin="5">
             <Image Source="Resources/to-right.png" Width="32" Height="32" Margin="4" />
-            <TextBox Text="To right" VerticalAlignment="Center" Margin="10,0" />
+            <TextBox Text="To right" VerticalAlignment="Center" Margin="10,0" 
+                     GotKeyboardFocus="StartRecording" />
             <Button Content="Action 2" Width="75" Margin="10,0" />
         </StackPanel>
 
         <!-- Third Row -->
         <StackPanel Orientation="Horizontal" Grid.Row="2" Margin="5">
             <Image Source="Resources/to-top.png" Width="32" Height="32" Margin="4" />
-            <TextBox Text="To bottom" VerticalAlignment="Center" Margin="10,0" />
+            <TextBox Text="To bottom" VerticalAlignment="Center" Margin="10,0" 
+                     GotKeyboardFocus="StartRecording"/>
             <Button Content="Action 3" Width="75" Margin="10,0" />
         </StackPanel>
 
         <!-- Fourth Row -->
         <StackPanel Orientation="Horizontal" Grid.Row="3" Margin="5">
             <Image Source="Resources/to-bottom.png" Width="32" Height="32" Margin="4" />
-            <TextBox Text="To top" VerticalAlignment="Center" Margin="10,0" />
+            <TextBox Text="To top" VerticalAlignment="Center" Margin="10,0" 
+                     GotKeyboardFocus="StartRecording"/>
             <Button Content="Action 4" Width="75" Margin="10,0" />
         </StackPanel>
 
         <!-- Fifth Row -->
         <StackPanel Orientation="Horizontal" Grid.Row="4" Margin="5">
             <Image Source="Resources/to-maximize.png" Width="32" Height="32" Margin="4" />
-            <TextBox Text="Maximize" VerticalAlignment="Center" Margin="10,0" />
+            <TextBox Text="Maximize" VerticalAlignment="Center" Margin="10,0" 
+                     GotKeyboardFocus="StartRecording"/>
             <Button Content="Action 5" Width="75" Margin="10,0" />
         </StackPanel>
 
