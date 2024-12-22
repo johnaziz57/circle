@@ -110,8 +110,7 @@ namespace Circle_2
                 if (key == Key.Enter)
                 {
                     // Save the recorded keys to the TextBox
-                    textBox.Text = FormatShortcutKeys(pressedKeys);
-                    StopRecording();
+                    FinishRecording(textBox);
                 }
                 else if (key == Key.Escape)
                 {
@@ -169,13 +168,12 @@ namespace Circle_2
             textBox.Text = "";
         }
 
-        private void StopRecording()
+        private void FinishRecording(TextBox textBox)
         {
-            isRecording = false;
-            pressedKeys.Clear();
+            keyboardHelper.StopRecording();
+            textBox.Text = FormatShortcutKeys(pressedKeys);
             Trace.WriteLine("StopRecording: TextboxValue: " + textBoxValue);
-
-            textBoxValue = "";
+            CleanUpRecording();
         }
 
         /*        private void AbortRecording(object sender, KeyboardFocusChangedEventArgs e)
@@ -196,9 +194,14 @@ namespace Circle_2
         {
             keyboardHelper.StopRecording();
             textBox.Text = textBoxValue;
+            Trace.WriteLine("AbortRecording: TextboxValue: " + textBoxValue);
+            CleanUpRecording();
+        }
+
+        private void CleanUpRecording()
+        {
             isRecording = false;
             pressedKeys.Clear();
-            Trace.WriteLine("AbortRecording: TextboxValue: " + textBoxValue);
             textBoxValue = "";
             Keyboard.ClearFocus();
         }
