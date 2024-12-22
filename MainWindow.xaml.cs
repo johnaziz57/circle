@@ -8,6 +8,13 @@ using System.Diagnostics;
 
 namespace Circle_2
 {
+
+    // TODO record keys here
+    // TODO override all system wide hotkey presses
+    // TODO make it work with the rest of the fields
+    // TODO LWin + Direction doesn't work
+    // TODO Add `WM_SYSKEYDOWN 0x0104` to the recording Util
+    // Apply the recording functions to all other TextBoxes
     /// <summary>
     /// Interaction logic for MainWindow.xaml
     /// </summary>
@@ -81,23 +88,7 @@ namespace Circle_2
 
         private void StartRecording(object sender, RoutedEventArgs e)
         {
-            Trace.WriteLine("Record Key: " + e.ToString());
-            keyboardHelper.StartRecording((key) =>
-            {
-                Trace.WriteLine("Recieved: " + key);
-                // TODO record keys here
-                // TODO override all system wide hotkey presses
-                // TODO make it work with the rest of the fields
-                // TODO LWin + Direction doesn't work
-                // TODO Add `WM_SYSKEYDOWN 0x0104` to the recording Util
-                // Apply the recording functions to all other TextBoxes
-            });
-        }
-
-        private void RecordKeys(object sender, KeyEventArgs e)
-        {
-
-
+            Trace.WriteLine("StartRecording: TextboxValue: " + textBoxValue);
             if (!(sender is TextBox))
             {
                 return;
@@ -109,37 +100,40 @@ namespace Circle_2
                 isRecording = true;
                 lastRecordingTime = DateTime.Now;
                 textBoxValue = textBox.Text;
+                Trace.WriteLine("StartRecording 2: TextboxValue: " + textBoxValue);
+
                 pressedKeys.Clear();
             }
             // Prevent default handling of keys like Tab
             e.Handled = true;
-
-            // Handle special keys: Enter and Escape
-            if (e.Key == Key.Enter)
+            keyboardHelper.StartRecording((key) =>
             {
-                // Save the recorded keys to the TextBox
-                textBox.Text = FormatShortcutKeys(pressedKeys);
-                ResetRecording();
-            }
-            else if (e.Key == Key.Escape)
-            {
-                // Cancel recording and keep the previous value
-                AbortRecording(textBox);
-            }
-            else
-            {
-                //// Add the key to the set if it's not already there
-                //if ((DateTime.Now - (lastRecordingTime ?? DateTime.Now)).TotalMilliseconds > 500)
-                //{
-                //    pressedKeys.Clear();
-                //}
-                if (!pressedKeys.Contains(e.Key))
+                if (key == Key.Enter)
                 {
-                    pressedKeys.Add(e.Key);
+                    // Save the recorded keys to the TextBox
                     textBox.Text = FormatShortcutKeys(pressedKeys);
-                    lastRecordingTime = DateTime.Now;
+                    StopRecording();
                 }
-            }
+                else if (key == Key.Escape)
+                {
+                    // Cancel recording and keep the previous value
+                    AbortRecording(textBox);
+                }
+                else
+                {
+                    //// Add the key to the set if it's not already there
+                    if ((DateTime.Now - (lastRecordingTime ?? DateTime.Now)).TotalMilliseconds > 500)
+                    {
+                        ResetRecording(textBox);
+                    }
+                    if (!pressedKeys.Contains(key))
+                    {
+                        pressedKeys.Add(key);
+                        textBox.Text = FormatShortcutKeys(pressedKeys);
+                        lastRecordingTime = DateTime.Now;
+                    }
+                }
+            });
         }
 
         private void RemoveKeys(object sender, KeyEventArgs e)
@@ -169,30 +163,45 @@ namespace Circle_2
             return string.Join(" + ", keyNames);
         }
 
-        private void ResetRecording()
+        private void ResetRecording(TextBox textBox)
+        {
+            pressedKeys.Clear();
+            Trace.WriteLine("ResetRecording: TextboxValue: " + textBoxValue);
+            textBox.Text = "";
+        }
+
+        private void StopRecording()
         {
             isRecording = false;
             pressedKeys.Clear();
+            Trace.WriteLine("StopRecording: TextboxValue: " + textBoxValue);
+
             textBoxValue = "";
         }
 
-        private void AbortRecording(object sender, KeyboardFocusChangedEventArgs e)
-        {
-            if (!(sender is TextBox))
-            {
-                return;
-            }
-            AbortRecording((TextBox)sender);
-            e.Handled = true;
-            keyboardHelper.StopRecording();
-        }
+        /*        private void AbortRecording(object sender, KeyboardFocusChangedEventArgs e)
+                {
+                    if (!(sender is TextBox) || !isRecording)
+                    {
+                        // Return here if the event sender is not a TextBox or user pressed ESC to abort the recording and it has already
+                        // stopped and this is just a callback because the TextBox lost the focus
+                        return;
+                    }
+
+                    AbortRecording((TextBox)sender);
+                    e.Handled = true;
+                    keyboardHelper.StopRecording();
+                }*/
 
         private void AbortRecording(TextBox textBox)
         {
+            keyboardHelper.StopRecording();
             textBox.Text = textBoxValue;
             isRecording = false;
             pressedKeys.Clear();
+            Trace.WriteLine("AbortRecording: TextboxValue: " + textBoxValue);
             textBoxValue = "";
+            Keyboard.ClearFocus();
         }
     }
 }

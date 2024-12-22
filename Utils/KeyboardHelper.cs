@@ -1,18 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
+﻿using System.Diagnostics;
 using System.Runtime.InteropServices;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Windows.Input;
 
 namespace Circle_2.Utils
 {
     class KeyboardHelper
     {
         private delegate IntPtr LowLevelKeyboardProc(int nCode, IntPtr wParam, IntPtr lParam);
-        public delegate void OnKeyPressed(Keys key);
+        public delegate void OnKeyPressed(Key key);
 
         private const int WH_KEYBOARD_LL = 13;
         private const int WM_KEYDOWN = 0x0100;
@@ -47,12 +43,9 @@ namespace Circle_2.Utils
         {
             //if (nCode >= 0 && wParam == WM_KEYDOWN)
             //{
-                int vkCode = Marshal.ReadInt32(lParam);
-                Console.WriteLine((Keys)vkCode);
-                onKeyPressed?.Invoke((Keys)vkCode);
-                Trace.WriteLine("Record Key: " + (Keys)vkCode);
-                Trace.WriteLine("wParam " + wParam);
-                Trace.WriteLine("nCode " + nCode);
+            int vkCode = Marshal.ReadInt32(lParam);
+            onKeyPressed?.Invoke(KeyInterop.KeyFromVirtualKey(vkCode));
+
             //}
             return -1;
         }

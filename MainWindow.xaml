@@ -22,9 +22,7 @@
         <StackPanel Orientation="Horizontal" Grid.Row="0" Margin="5">
             <Image Source="Resources/to-left.png" Width="32" Height="32" Margin="4"/>
             <TextBox Text="To left" HorizontalAlignment="Stretch" VerticalAlignment="Center" Margin="10,0" 
-                    
-                     GotKeyboardFocus="StartRecording"
-                     LostKeyboardFocus="AbortRecording"/>
+                     GotKeyboardFocus="StartRecording"/>
             <Button Content="Action 1" Width="75" Margin="10,0" />
         </StackPanel>
 
