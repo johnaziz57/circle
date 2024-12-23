@@ -7,6 +7,13 @@
         mc:Ignorable="d"
         SizeToContent="WidthAndHeight"
         xmlns:tb="http://www.hardcodet.net/taskbar">
+    <Window.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="Resources/Images.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </Window.Resources>
     <Grid>
         <!-- Define a 5-row layout -->
         <Grid.RowDefinitions>
@@ -20,7 +27,7 @@
         <!-- TODO fix the images visible black border -->
         <!-- First Row -->
         <StackPanel Orientation="Horizontal" Grid.Row="0" Margin="5">
-            <Image Source="Resources/to-left.png" Width="32" Height="32" Margin="4"/>
+            <Image Source="{StaticResource to_leftDrawingImage}" Width="32" Height="32" Margin="4"/>
             <TextBox Text="To left" HorizontalAlignment="Stretch" VerticalAlignment="Center" Margin="10,0" 
                      GotKeyboardFocus="StartRecording"/>
             <Button Content="Action 1" Width="75" Margin="10,0" />
@@ -28,7 +35,7 @@
 
         <!-- Second Row -->
         <StackPanel Orientation="Horizontal" Grid.Row="1" Margin="5">
-            <Image Source="Resources/to-right.png" Width="32" Height="32" Margin="4" />
+            <Image Source="{StaticResource to_rightDrawingImage}" Width="32" Height="32" Margin="4" />
             <TextBox Text="To right" VerticalAlignment="Center" Margin="10,0" 
                      GotKeyboardFocus="StartRecording" />
             <Button Content="Action 2" Width="75" Margin="10,0" />
@@ -36,7 +43,7 @@
 
         <!-- Third Row -->
         <StackPanel Orientation="Horizontal" Grid.Row="2" Margin="5">
-            <Image Source="Resources/to-top.png" Width="32" Height="32" Margin="4" />
+            <Image Source="{StaticResource to_bottomDrawingImage}" Width="32" Height="32" Margin="4" />
             <TextBox Text="To bottom" VerticalAlignment="Center" Margin="10,0" 
                      GotKeyboardFocus="StartRecording"/>
             <Button Content="Action 3" Width="75" Margin="10,0" />
@@ -44,7 +51,7 @@
 
         <!-- Fourth Row -->
         <StackPanel Orientation="Horizontal" Grid.Row="3" Margin="5">
-            <Image Source="Resources/to-bottom.png" Width="32" Height="32" Margin="4" />
+            <Image Source="{StaticResource to_topDrawingImage}" Width="32" Height="32" Margin="4" />
             <TextBox Text="To top" VerticalAlignment="Center" Margin="10,0" 
                      GotKeyboardFocus="StartRecording"/>
             <Button Content="Action 4" Width="75" Margin="10,0" />
@@ -52,7 +59,7 @@
 
         <!-- Fifth Row -->
         <StackPanel Orientation="Horizontal" Grid.Row="4" Margin="5">
-            <Image Source="Resources/to-maximize.png" Width="32" Height="32" Margin="4" />
+            <Image Source="{StaticResource to_maximizeDrawingImage}" Width="32" Height="32" Margin="4" />
             <TextBox Text="Maximize" VerticalAlignment="Center" Margin="10,0" 
                      GotKeyboardFocus="StartRecording"/>
             <Button Content="Action 5" Width="75" Margin="10,0" />

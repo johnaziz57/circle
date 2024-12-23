@@ -1,7 +1,14 @@
 ﻿### TODO
-1. TODO record keys here
-2. TODO override all system wide hotkey presses
-3. TODO make recording work with the rest of the fields
-4. TODO LWin + Direction doesn't work
-5. TODO Add `WM_SYSKEYDOWN 0x0104` to the recording Util
-6. Apply the recording functions to all other TextBoxes
+1. Make better icons for the app
+1. Improve the distance between the textbox and the buttons
+1. Remove the buttons or add (x) at the end of the text field
+1. Save/Register the new hotkeys after they have changed
+1. 
+
+
+### Done
+1. Record keys
+2. override all system wide hotkey presses
+3. make recording work with the rest of the fields
+1. LWin + Direction doesn't work -> Now fixed
+1. TODO Add `WM_SYSKEYDOWN 0x0104` to the recording Util -> Ignored the condition all together
