@@ -4,18 +4,19 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Circle_2"
+        xmlns:components="clr-namespace:Circle_2.Components"
         mc:Ignorable="d"
         SizeToContent="WidthAndHeight"
         xmlns:tb="http://www.hardcodet.net/taskbar">
     <Window.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
-                <ResourceDictionary Source="Resources/Images.xaml"/>
+                <ResourceDictionary Source="Resources/Images.xaml" />
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </Window.Resources>
     <Grid>
-        <!-- Define a 5-row layout -->
+        <!-- Define a 6-row layout -->
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
@@ -24,53 +25,69 @@
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
-        <!-- TODO fix the images visible black border -->
+
+        
         <!-- First Row -->
-        <StackPanel Orientation="Horizontal" Grid.Row="0" Margin="5">
-            <Image Source="{StaticResource to_leftDrawingImage}" Width="32" Height="32" Margin="4"/>
-            <TextBox Text="To left" HorizontalAlignment="Stretch" VerticalAlignment="Center" Margin="10,0" 
-                     GotKeyboardFocus="StartRecording"/>
-            <Button Content="Action 1" Width="75" Margin="10,0" />
-        </StackPanel>
+        <Grid Grid.Row="0" Margin="5">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto" />
+                <!-- For Image -->
+                <ColumnDefinition Width="*" />
+                <!-- For TextBox -->
+            </Grid.ColumnDefinitions>
+            <Image Source="{StaticResource to_leftDrawingImage}" Width="32" Height="32" Margin="4" Grid.Column="0" />
+            <components:ClearableTextBox Grid.Column="1" Text="To left" GotKeyboardFocus="StartRecording"/>
+        </Grid>
 
         <!-- Second Row -->
-        <StackPanel Orientation="Horizontal" Grid.Row="1" Margin="5">
-            <Image Source="{StaticResource to_rightDrawingImage}" Width="32" Height="32" Margin="4" />
-            <TextBox Text="To right" VerticalAlignment="Center" Margin="10,0" 
-                     GotKeyboardFocus="StartRecording" />
-            <Button Content="Action 2" Width="75" Margin="10,0" />
-        </StackPanel>
+        <Grid Grid.Row="1" Margin="5">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+            <Image Source="{StaticResource to_rightDrawingImage}" Width="32" Height="32" Margin="4" Grid.Column="0" />
+            <components:ClearableTextBox Grid.Column="1" Text="To right" GotKeyboardFocus="StartRecording"/>
+        </Grid>
 
         <!-- Third Row -->
-        <StackPanel Orientation="Horizontal" Grid.Row="2" Margin="5">
-            <Image Source="{StaticResource to_bottomDrawingImage}" Width="32" Height="32" Margin="4" />
-            <TextBox Text="To bottom" VerticalAlignment="Center" Margin="10,0" 
-                     GotKeyboardFocus="StartRecording"/>
-            <Button Content="Action 3" Width="75" Margin="10,0" />
-        </StackPanel>
+        <Grid Grid.Row="2" Margin="5">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+            <Image Source="{StaticResource to_bottomDrawingImage}" Width="32" Height="32" Margin="4" Grid.Column="0" />
+            <components:ClearableTextBox Grid.Column="1" Text="To top" GotKeyboardFocus="StartRecording"/>
+        </Grid>
 
         <!-- Fourth Row -->
-        <StackPanel Orientation="Horizontal" Grid.Row="3" Margin="5">
-            <Image Source="{StaticResource to_topDrawingImage}" Width="32" Height="32" Margin="4" />
-            <TextBox Text="To top" VerticalAlignment="Center" Margin="10,0" 
-                     GotKeyboardFocus="StartRecording"/>
-            <Button Content="Action 4" Width="75" Margin="10,0" />
-        </StackPanel>
+        <Grid Grid.Row="3" Margin="5">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+            <Image Source="{StaticResource to_topDrawingImage}" Width="32" Height="32" Margin="4" Grid.Column="0" />
+            <components:ClearableTextBox Grid.Column="1" Text="To bottom" GotKeyboardFocus="StartRecording"/>
+        </Grid>
 
         <!-- Fifth Row -->
-        <StackPanel Orientation="Horizontal" Grid.Row="4" Margin="5">
-            <Image Source="{StaticResource to_maximizeDrawingImage}" Width="32" Height="32" Margin="4" />
-            <TextBox Text="Maximize" VerticalAlignment="Center" Margin="10,0" 
-                     GotKeyboardFocus="StartRecording"/>
-            <Button Content="Action 5" Width="75" Margin="10,0" />
-        </StackPanel>
+        <Grid Grid.Row="4" Margin="5">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+            <Image Source="{StaticResource to_maximizeDrawingImage}" Width="32" Height="32" Margin="4" Grid.Column="0" />
+            <components:ClearableTextBox Grid.Column="1" Text="To left" GotKeyboardFocus="StartRecording"/>
+        </Grid>
 
         <!-- Sixth Row: Start on Windows Startup Checkbox -->
-        <StackPanel Orientation="Horizontal" Grid.Row="5" Margin="5">
-            <CheckBox x:Name="StartupCheckbox" Content="Start on Windows startup" VerticalAlignment="Center" Margin="5,0"
-                Checked="CheckBox_Checked" 
-                Unchecked="CheckBox_Unchecked"/>
-        </StackPanel>
+        <Grid Grid.Row="5" Margin="5">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+            <CheckBox x:Name="StartupCheckbox" Content="Start on Windows startup" VerticalAlignment="Center" Margin="5,0" 
+                      Grid.Column="0" Grid.ColumnSpan="2"
+                      Checked="CheckBox_Checked" Unchecked="CheckBox_Unchecked" />
+        </Grid>
     </Grid>
-
 </Window>
