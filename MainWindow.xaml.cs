@@ -4,6 +4,7 @@ using System.Windows.Input;
 using System.Windows.Controls;
 using Circle_2.Utils;
 using System.Diagnostics;
+using Circle_2.Components;
 
 namespace Circle_2
 {
@@ -134,17 +135,11 @@ namespace Circle_2
             });
         }
 
-        private void RemoveKeys(object sender, KeyEventArgs e)
+        private void ClearRecording(object sender, RoutedEventArgs e)
         {
-            // Optional: Remove keys that are released
-            if (!(sender is TextBox))
-            {
-                return;
-            }
-            TextBox textBox = (TextBox)sender;
-            pressedKeys.Remove(e.Key);
-            textBox.Text = FormatShortcutKeys(pressedKeys);
+            //ResetRecording(textBox);
         }
+
 
         private string FormatShortcutKeys(HashSet<Key> keys)
         {

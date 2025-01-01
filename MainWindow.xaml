@@ -12,6 +12,7 @@
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="Resources/Images.xaml" />
+                <ResourceDictionary Source="Resources/Styles.xaml"/>
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </Window.Resources>
@@ -26,57 +27,83 @@
             <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
 
-        
+
         <!-- First Row -->
         <Grid Grid.Row="0" Margin="5">
             <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto" />
+                <!-- For Label -->
                 <ColumnDefinition Width="Auto" />
                 <!-- For Image -->
                 <ColumnDefinition Width="*" />
                 <!-- For TextBox -->
             </Grid.ColumnDefinitions>
-            <Image Source="{StaticResource to_leftDrawingImage}" Width="32" Height="32" Margin="4" Grid.Column="0" />
-            <components:ClearableTextBox Grid.Column="1" Text="To left" GotKeyboardFocus="StartRecording"/>
+            <Label Content="Move to Left" Margin="4" Grid.Column="0" Style="{StaticResource LabelStyle}"/>
+            <Image Source="{StaticResource to_leftDrawingImage}" Width="32" Height="32" Margin="4" Grid.Column="1" />
+            <components:ClearableTextBox Grid.Column="2" Text="To left" GotKeyboardFocus="StartRecording" 
+                                         OnClearClicked="ClearRecording"/>
         </Grid>
 
         <!-- Second Row -->
         <Grid Grid.Row="1" Margin="5">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="Auto" />
+                <!-- For Label -->
+                <ColumnDefinition Width="Auto" />
+                <!-- For Image -->
                 <ColumnDefinition Width="*" />
+                <!-- For TextBox -->
             </Grid.ColumnDefinitions>
-            <Image Source="{StaticResource to_rightDrawingImage}" Width="32" Height="32" Margin="4" Grid.Column="0" />
-            <components:ClearableTextBox Grid.Column="1" Text="To right" GotKeyboardFocus="StartRecording"/>
+            <Label Content="Move to Right" Margin="4" Grid.Column="0" Style="{StaticResource LabelStyle}"/>
+            <Image Source="{StaticResource to_rightDrawingImage}" Width="32" Height="32" Margin="4" Grid.Column="1" />
+            <components:ClearableTextBox Grid.Column="2" Text="To right" GotKeyboardFocus="StartRecording"/>
         </Grid>
 
         <!-- Third Row -->
         <Grid Grid.Row="2" Margin="5">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="Auto" />
+                <!-- For Label -->
+                <ColumnDefinition Width="Auto" />
+                <!-- For Image -->
                 <ColumnDefinition Width="*" />
+                <!-- For TextBox -->
             </Grid.ColumnDefinitions>
-            <Image Source="{StaticResource to_bottomDrawingImage}" Width="32" Height="32" Margin="4" Grid.Column="0" />
-            <components:ClearableTextBox Grid.Column="1" Text="To top" GotKeyboardFocus="StartRecording"/>
+            <Label Content="Move to Bottom" Margin="4" Grid.Column="0" Style="{StaticResource LabelStyle}"/>
+            <Image Source="{StaticResource to_bottomDrawingImage}" Width="32" Height="32" Margin="4" Grid.Column="1" />
+            <components:ClearableTextBox Grid.Column="2" Text="To top" GotKeyboardFocus="StartRecording"/>
         </Grid>
 
         <!-- Fourth Row -->
         <Grid Grid.Row="3" Margin="5">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="Auto" />
+                <!-- For Label -->
+                <ColumnDefinition Width="Auto" />
+                <!-- For Image -->
                 <ColumnDefinition Width="*" />
+                <!-- For TextBox -->
             </Grid.ColumnDefinitions>
-            <Image Source="{StaticResource to_topDrawingImage}" Width="32" Height="32" Margin="4" Grid.Column="0" />
-            <components:ClearableTextBox Grid.Column="1" Text="To bottom" GotKeyboardFocus="StartRecording"/>
+            <Label Content="Move to Top" Margin="4" Grid.Column="0" Style="{StaticResource LabelStyle}"/>
+            <Image Source="{StaticResource to_topDrawingImage}" Width="32" Height="32" Margin="4" Grid.Column="1" />
+            <components:ClearableTextBox Grid.Column="2" Text="To bottom" GotKeyboardFocus="StartRecording"/>
         </Grid>
 
         <!-- Fifth Row -->
         <Grid Grid.Row="4" Margin="5">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="Auto" />
+                <!-- For Label -->
+                <ColumnDefinition Width="Auto" />
+                <!-- For Image -->
                 <ColumnDefinition Width="*" />
+                <!-- For TextBox -->
             </Grid.ColumnDefinitions>
-            <Image Source="{StaticResource to_maximizeDrawingImage}" Width="32" Height="32" Margin="4" Grid.Column="0" />
-            <components:ClearableTextBox Grid.Column="1" Text="To left" GotKeyboardFocus="StartRecording"/>
+
+            <Label Content="Maximize" Margin="4" Grid.Column="0" Style="{StaticResource LabelStyle}"/>
+
+            <Image Source="{StaticResource to_maximizeDrawingImage}" Width="32" Height="32" Margin="4" Grid.Column="1" />
+            <components:ClearableTextBox Grid.Column="2" Text="To left" GotKeyboardFocus="StartRecording"/>
         </Grid>
 
         <!-- Sixth Row: Start on Windows Startup Checkbox -->
@@ -85,9 +112,18 @@
                 <ColumnDefinition Width="Auto" />
                 <ColumnDefinition Width="*" />
             </Grid.ColumnDefinitions>
-            <CheckBox x:Name="StartupCheckbox" Content="Start on Windows startup" VerticalAlignment="Center" Margin="5,0" 
-                      Grid.Column="0" Grid.ColumnSpan="2"
-                      Checked="CheckBox_Checked" Unchecked="CheckBox_Unchecked" />
+
+
+            <CheckBox x:Name="StartupCheckbox" 
+                      Content="Start on Windows startup" 
+                      VerticalAlignment="Center"
+                      Margin="0"
+                      Cursor="Hand"
+                      Checked="CheckBox_Checked" 
+                      Unchecked="CheckBox_Unchecked"
+                      Style="{StaticResource CheckBoxStyle}"/>
+
         </Grid>
+
     </Grid>
 </Window>

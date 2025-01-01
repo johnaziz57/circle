@@ -1,4 +1,5 @@
 ﻿### TODO
+1. TODO Make clearableBox intercept all GotKeyboardFocusEvents from children
 1. Make better icons for the app
 1. Improve the distance between the textbox and the buttons
 1. Remove the buttons or add (x) at the end of the text field
