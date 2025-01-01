@@ -11,10 +11,6 @@
 
   <ItemGroup>
     <None Remove="Resources\icon.ico" />
-    <None Remove="Resources\to-bottom.png" />
-    <None Remove="Resources\to-left.png" />
-    <None Remove="Resources\to-right.png" />
-    <None Remove="Resources\to-top.png" />
   </ItemGroup>
 
   <ItemGroup>
@@ -28,10 +24,6 @@
     <Resource Include="Resources\icon.ico">
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </Resource>
-    <Resource Include="Resources\to-bottom.png" />
-    <Resource Include="Resources\to-left.png" />
-    <Resource Include="Resources\to-right.png" />
-    <Resource Include="Resources\to-top.png" />
   </ItemGroup>
 
 </Project>

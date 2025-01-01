@@ -1,7 +1,7 @@
 ﻿### TODO
 1. Save/Register the new hotkeys after they have changed
 1. Make better icons for the app
-
+1. 
 
 
 ### Done
