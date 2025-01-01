@@ -1,17 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
+﻿using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 
 namespace Circle_2.Components
 {
@@ -36,7 +24,7 @@ namespace Circle_2.Components
 
         public static readonly DependencyProperty OnClearClickedProperty = DependencyProperty.Register(
             nameof(OnClearClicked),
-            typeof(ICommand),
+            typeof(RoutedEventHandler),
             typeof(ClearableTextBox),
             new PropertyMetadata(null));
 
@@ -52,63 +40,46 @@ namespace Circle_2.Components
             set => SetValue(GotKeyboardFocusProperty, value);
         }
 
-        public ICommand OnClearClicked
+        public RoutedEventHandler OnClearClicked
         {
-            get => (ICommand)GetValue(OnClearClickedProperty);
+            get => (RoutedEventHandler)GetValue(OnClearClickedProperty);
             set => SetValue(OnClearClickedProperty, value);
         }
 
-        private Button ClearButton;
+        private Button? ClearButton = null;
 
         public ClearableTextBox()
         {
             InitializeComponent();
+            Loaded += ComponentLoaded;
             InputTextBox.GotKeyboardFocus += TextInput_GotKeyboardFocus;
+            InputTextBox.LostKeyboardFocus += TextInput_LostKeyboardFocus;
         }
 
-        public override void OnApplyTemplate()
+        private void ComponentLoaded(object sender, RoutedEventArgs e)
         {
-            base.OnApplyTemplate();
-            // TODO find the clear button
-            ClearButton = FindClearButton(this);
+            ClearButton = InputTextBox.Template.FindName("ClearButton", InputTextBox) as Button;
             if (ClearButton != null)
             {
                 // You can add event handlers or manipulate the button here
                 ClearButton.Click += ClearButton_OnClearClicked;
             }
-            //ClearButton.Click += ClearButton_OnClearClicked;
         }
-        private Button FindClearButton(DependencyObject parent)
-        {
-            // Traverse the visual tree to find the ClearButton
-            for (int i = 0; i < VisualTreeHelper.GetChildrenCount(parent); i++)
-            {
-                var child = VisualTreeHelper.GetChild(parent, i);
-                if (child is Button button && button.Name == "ClearButton")
-                {
-                    return button;
-                }
-                var result = FindClearButton(child);
-                if (result != null) return result;
-            }
-            return null;
-        }
+
 
         private void TextInput_GotKeyboardFocus(object sender, RoutedEventArgs e)
         {
             // Invoke the event handler set from XAML if it exists
-            GotKeyboardFocus?.Invoke(sender, e);
-            //ClearButton.Visibility = Visibility.Collapsed;
+            GotKeyboardFocus(sender, e);
         }
 
         private void TextInput_LostKeyboardFocus(object sender, RoutedEventArgs e)
         {
-            // ClearButton.Visibility = Visibility.Collapsed;
         }
 
         private void ClearButton_OnClearClicked(object sender, RoutedEventArgs e)
         {
-            OnClearClicked.Execute(this);
+            OnClearClicked?.Invoke(sender, e);
         }
     }
 }

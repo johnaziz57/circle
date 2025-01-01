@@ -3,13 +3,16 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             xmlns:local="clr-namespace:Circle_2.Components"
              mc:Ignorable="d" 
-             d:DesignHeight="200" d:DesignWidth="400">
+             MinWidth="150"
+             d:DesignHeight="50" d:DesignWidth="400">
     <Grid>
         <TextBox x:Name="InputTextBox"
                  VerticalAlignment="Center"
-                 Padding="0"
+                 Padding="10,5"
+                 Background="White"
+                 BorderBrush="#D1D1D1"
+                 BorderThickness="1"
                  Text="{Binding Text, RelativeSource={RelativeSource AncestorType=UserControl}, Mode=TwoWay}">
             <TextBox.Style>
                 <Style TargetType="TextBox">
@@ -20,18 +23,51 @@
                                     <!-- TextBox Background -->
                                     <Border BorderBrush="{TemplateBinding BorderBrush}" 
                                             BorderThickness="{TemplateBinding BorderThickness}" 
-                                            Background="{TemplateBinding Background}">
+                                            Background="{TemplateBinding Background}"
+                                            CornerRadius="5">
                                         <ScrollViewer Margin="0" 
                                                       x:Name="PART_ContentHost" />
                                     </Border>
                                     <!-- Clear Button -->
                                     <Button x:Name="ClearButton"
-                                            Content="x"
-                                            Width="{Binding RelativeSource={RelativeSource Self}, Path=ActualHeight}"
-                                            VerticalAlignment="Stretch"
+                                            Content="X"
+                                            Width="20"
+                                            Height="20"
+                                            Background="#FF4CAF50"
+                                            Foreground="White"
+                                            FontWeight="Bold"
+                                            FontSize="12"
+                                            VerticalAlignment="Center"
                                             HorizontalAlignment="Right"
-                                            Margin="0,0,0,0"
-                                            Visibility="Visible" />
+                                            Margin="0,0,5,0"
+                                            BorderBrush="#FF4CAF50"
+                                            BorderThickness="1"
+                                            Cursor="Hand">
+                                        <Button.Style>
+                                            <Style TargetType="Button">
+                                                <Setter Property="Template">
+                                                    <Setter.Value>
+                                                        <ControlTemplate TargetType="Button">
+                                                            <Border CornerRadius="10" 
+                                                                    Background="{TemplateBinding Background}"
+                                                                    BorderBrush="{TemplateBinding BorderBrush}"
+                                                                    BorderThickness="{TemplateBinding BorderThickness}">
+                                                                <ContentPresenter HorizontalAlignment="Center"
+                                                                                  VerticalAlignment="Center" />
+                                                            </Border>
+                                                        </ControlTemplate>
+                                                    </Setter.Value>
+                                                </Setter>
+                                                <Setter Property="Opacity" Value="0.8" />
+                                                <Style.Triggers>
+                                                    <Trigger Property="IsMouseOver" Value="True">
+                                                        <Setter Property="Background" Value="#FF388E3C" />
+                                                        <Setter Property="Opacity" Value="1" />
+                                                    </Trigger>
+                                                </Style.Triggers>
+                                            </Style>
+                                        </Button.Style>
+                                    </Button>
                                 </Grid>
                             </ControlTemplate>
                         </Setter.Value>
