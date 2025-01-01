@@ -79,7 +79,7 @@ namespace Circle_2.Components
 
         private void ClearButton_OnClearClicked(object sender, RoutedEventArgs e)
         {
-            OnClearClicked?.Invoke(sender, e);
+            OnClearClicked?.Invoke(InputTextBox, e);
         }
     }
 }

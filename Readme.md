@@ -1,5 +1,6 @@
 ﻿### TODO
-1. Clear recording when users press the x button
+1. Clear recording when users press the x button (Stop recording from starting when that happens)
+1. Make sure the sender of any events is `ClearableTextBox` instead of the inner component like TextBox or CheckBox
 1. Save/Register the new hotkeys after they have changed
 1. Make better icons for the app
 1. 

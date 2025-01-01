@@ -148,7 +148,7 @@ namespace Circle_2
 
         private void ClearRecording(object sender, RoutedEventArgs e)
         {
-            //ResetRecording(textBox);
+            ResetRecording((TextBox)sender);
         }
 
 
