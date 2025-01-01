@@ -25,6 +25,7 @@ namespace Circle_2
         private DateTime? lastRecordingTime = null;
         private KeyboardHelper keyboardHelper = new KeyboardHelper();
         private string textBoxValue = "";
+        private TextBox? currentTextBox = null;
 
         public MainWindow()
         {
@@ -94,6 +95,7 @@ namespace Circle_2
                 return;
             }
             TextBox textBox = (TextBox)sender;
+            currentTextBox = textBox;
             // Start recording when TextBox is clicked
             if (!isRecording)
             {
@@ -135,6 +137,15 @@ namespace Circle_2
             });
         }
 
+        private void OnLostFocus(object sender, EventArgs e)
+        {
+            Trace.WriteLine("Lost FOCUS");
+            if (currentTextBox != null)
+            {
+                AbortRecording(currentTextBox);
+            }
+        }
+
         private void ClearRecording(object sender, RoutedEventArgs e)
         {
             //ResetRecording(textBox);
@@ -171,24 +182,12 @@ namespace Circle_2
             CleanUpRecording();
         }
 
-        /*        private void AbortRecording(object sender, KeyboardFocusChangedEventArgs e)
-                {
-                    if (!(sender is TextBox) || !isRecording)
-                    {
-                        // Return here if the event sender is not a TextBox or user pressed ESC to abort the recording and it has already
-                        // stopped and this is just a callback because the TextBox lost the focus
-                        return;
-                    }
-
-                    AbortRecording((TextBox)sender);
-                    e.Handled = true;
-                    keyboardHelper.StopRecording();
-                }*/
 
         private void AbortRecording(TextBox textBox)
         {
             keyboardHelper.StopRecording();
             textBox.Text = textBoxValue;
+
             Trace.WriteLine("AbortRecording: TextboxValue: " + textBoxValue);
             CleanUpRecording();
         }
@@ -199,6 +198,7 @@ namespace Circle_2
             pressedKeys.Clear();
             textBoxValue = "";
             Keyboard.ClearFocus();
+            currentTextBox = null;
         }
     }
 }
