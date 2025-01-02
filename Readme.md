@@ -6,6 +6,7 @@
 1. Save/Register the new hotkeys after they have changed
 1. Make better icons for the app
 1. When recording, remove the keys when key up event happens
+1. Allow only one non-modifier key when recording shortcuts
 
 
 ### Done
