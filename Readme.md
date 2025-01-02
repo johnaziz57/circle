@@ -1,12 +1,13 @@
 ﻿### TODO
-1. Handle multiple recording happening at the same time case (stop the recording of other fields)
-1. Give the text box different background when recording
-1. Give the text box a different value when it is waiting for recording
-1. Make sure the sender of any events is `ClearableTextBox` instead of the inner component like TextBox or CheckBox
+
 1. Save/Register the new hotkeys after they have changed
+1. Move the recording logic within the clearable textbox
+1. Fix textbox background colour doesn't change back when pressing ESC
+1. Allow only one non-modifier key when recording shortcuts
+1. Make sure the sender of any events is `ClearableTextBox` instead of the inner component like TextBox or CheckBox
 1. Make better icons for the app
 1. When recording, remove the keys when key up event happens
-1. Allow only one non-modifier key when recording shortcuts
+
 
 
 ### Done
@@ -20,3 +21,6 @@
 1. Stop recording when the whole window loses focus
 1. Improve the recording of the shortcut to record as many modifiers but once you enter a non modifier key it stops
 1. Clear recording when users press the x button (Stop recording from starting recording when that happens)
+1. Handle multiple recording happening at the same time case (stop the recording of other fields)
+1. Give the text box different background when recording
+1. Give the text box a different value when it is waiting for recording

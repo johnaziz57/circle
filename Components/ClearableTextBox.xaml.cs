@@ -36,6 +36,8 @@ namespace Circle_2.Components
             typeof(ClearableTextBox),
             new PropertyMetadata(null));
 
+        private static readonly SolidColorBrush HiddenCaretBrush = new SolidColorBrush(Colors.Transparent);
+
         public string Text
         {
             get => (string)GetValue(TextProperty);
@@ -70,6 +72,7 @@ namespace Circle_2.Components
             Loaded += ComponentLoaded;
             InputTextBox.GotKeyboardFocus += TextInput_GotKeyboardFocus;
             InputTextBox.LostKeyboardFocus += TextInput_LostKeyboardFocus;
+            InputTextBox.CaretBrush = HiddenCaretBrush;
         }
 
         private void ComponentLoaded(object sender, RoutedEventArgs e)
@@ -90,6 +93,7 @@ namespace Circle_2.Components
             {
                 GotKeyboardFocus(sender, e);
                 InputTextBox.Background = ActiveBrush;
+                InputTextBox.Text = "Start Typing";
             }
         }
 
