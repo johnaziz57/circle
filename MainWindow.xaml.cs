@@ -40,7 +40,7 @@ namespace Circle_2
                 // The link should be added here
                 // C:\Users\John\AppData\Roaming\Microsoft\Windows\Start Menu\Programs\Startup
                 string startupFolder = Environment.GetFolderPath(Environment.SpecialFolder.Startup);
-                string shortcutPath = System.IO.Path.Combine(startupFolder, "Circle-2.lnk");
+                string shortcutPath = Path.Combine(startupFolder, "Circle-2.lnk");
 
                 // Path to the executable
                 string exePath = System.Reflection.Assembly.GetExecutingAssembly().Location;
@@ -64,7 +64,7 @@ namespace Circle_2
             try
             {
                 string startupFolder = Environment.GetFolderPath(Environment.SpecialFolder.Startup);
-                string shortcutPath = System.IO.Path.Combine(startupFolder, "Circle-2.lnk");
+                string shortcutPath = Path.Combine(startupFolder, "Circle-2.lnk");
 
                 if (File.Exists(shortcutPath))
                 {
@@ -81,7 +81,7 @@ namespace Circle_2
         private bool IsAppInStartupFolder()
         {
             string startupFolder = Environment.GetFolderPath(Environment.SpecialFolder.Startup);
-            string shortcutPath = System.IO.Path.Combine(startupFolder, "Circle-2.lnk");
+            string shortcutPath = Path.Combine(startupFolder, "Circle-2.lnk");
 
             // Check if the shortcut file exists
             return File.Exists(shortcutPath);
