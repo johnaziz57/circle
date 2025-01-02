@@ -87,6 +87,8 @@ namespace Circle_2
             return File.Exists(shortcutPath);
         }
 
+
+
         private void StartRecording(object sender, RoutedEventArgs e)
         {
             Trace.WriteLine("StartRecording: TextboxValue: " + textBoxValue);
