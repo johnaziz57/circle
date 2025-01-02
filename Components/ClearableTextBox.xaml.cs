@@ -1,6 +1,7 @@
 ﻿using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
+using System.Windows.Media;
 
 namespace Circle_2.Components
 {
@@ -48,6 +49,8 @@ namespace Circle_2.Components
         }
 
         private Button? ClearButton = null;
+        private SolidColorBrush ActiveBrush = new BrushConverter().ConvertFrom("#D1D1D1") as SolidColorBrush;
+        private SolidColorBrush InactiveBrush = new SolidColorBrush(Colors.White);
 
         public ClearableTextBox()
         {
@@ -71,14 +74,16 @@ namespace Circle_2.Components
         private void TextInput_GotKeyboardFocus(object sender, KeyboardFocusChangedEventArgs e)
         {
             // ignore the event if it is coming from the button click
-            if (!(e.NewFocus is Button))
+            if (e.NewFocus is TextBox)
             {
                 GotKeyboardFocus(sender, e);
+                InputTextBox.Background = ActiveBrush;
             }
         }
 
         private void TextInput_LostKeyboardFocus(object sender, RoutedEventArgs e)
         {
+            InputTextBox.Background = InactiveBrush;
         }
 
         private void ClearButton_OnClearClicked(object sender, RoutedEventArgs e)
