@@ -1,5 +1,6 @@
 ﻿using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Input;
 
 namespace Circle_2.Components
 {
@@ -67,10 +68,13 @@ namespace Circle_2.Components
         }
 
 
-        private void TextInput_GotKeyboardFocus(object sender, RoutedEventArgs e)
+        private void TextInput_GotKeyboardFocus(object sender, KeyboardFocusChangedEventArgs e)
         {
-            // Invoke the event handler set from XAML if it exists
-            GotKeyboardFocus(sender, e);
+            // ignore the event if it is coming from the button click
+            if (!(e.NewFocus is Button))
+            {
+                GotKeyboardFocus(sender, e);
+            }
         }
 
         private void TextInput_LostKeyboardFocus(object sender, RoutedEventArgs e)
