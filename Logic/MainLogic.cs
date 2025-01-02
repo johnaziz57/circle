@@ -81,7 +81,7 @@ namespace Circle_2.Logic
             var windowBounds = windowHelper.GetWindowBounds(lWindowHandle);
             if (windowBounds.Equals(workArea.Left, workArea.Top, newWidth, newHeight))
             {
-                MoveWindowToRight(lWindowHandle, lMonitorInfo);
+                MoveWindowToRight(lWindowHandle, monitorHelper.GetNextMonitor(lMonitorInfo));
             }
             else
             {
@@ -104,7 +104,7 @@ namespace Circle_2.Logic
             var windowBounds = windowHelper.GetWindowBounds(lWindowHandle);
             if (windowBounds.Equals(newLeft, workArea.Top, newWidth, newHeight))
             {
-                MoveWindowToLeft(lWindowHandle, lMonitorInfo);
+                MoveWindowToLeft(lWindowHandle, monitorHelper.GetPreviousMonitor(lMonitorInfo));
             }
             else
             {
