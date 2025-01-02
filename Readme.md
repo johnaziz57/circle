@@ -7,6 +7,8 @@
 1. Make sure the sender of any events is `ClearableTextBox` instead of the inner component like TextBox or CheckBox
 1. Make better icons for the app
 1. When recording, remove the keys when key up event happens
+1. Handle moving window to different monitor when the window doesn't resize
+1. Show snappable areas when moving windows ??
 
 
 
