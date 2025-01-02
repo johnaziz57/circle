@@ -5,6 +5,8 @@ using System.Windows.Controls;
 using Circle_2.Utils;
 using System.Diagnostics;
 using Circle_2.Components;
+using Circle_2.Logic;
+using static Circle_2.Logic.ShortcutRecorder;
 
 namespace Circle_2
 {
@@ -21,11 +23,10 @@ namespace Circle_2
     public partial class MainWindow : Window
     {
         private bool isRecording = false;
-        private HashSet<Key> pressedKeys = new HashSet<Key>(); // To track pressed keys
         private DateTime? lastRecordingTime = null;
-        private KeyboardHelper keyboardHelper = new KeyboardHelper();
         private string textBoxValue = "";
         private TextBox? currentTextBox = null;
+        private ShortcutRecorder shortcutRecorder = new ShortcutRecorder();
 
         public MainWindow()
         {
@@ -97,62 +98,45 @@ namespace Circle_2
             TextBox textBox = (TextBox)sender;
             currentTextBox = textBox;
             // Start recording when TextBox is clicked
-            if (!isRecording)
+            if (!isRecording) // TODO do something when the user is already recording
             {
                 isRecording = true;
                 lastRecordingTime = DateTime.Now;
                 textBoxValue = textBox.Text;
                 Trace.WriteLine("StartRecording 2: TextboxValue: " + textBoxValue);
 
-                pressedKeys.Clear();
             }
             // Prevent default handling of keys like Tab
             e.Handled = true;
-            keyboardHelper.StartRecording((key) =>
+            shortcutRecorder.StartRecording((shortcutEvent, keys) =>
             {
-                if (key == Key.Enter)
+                switch (shortcutEvent)
                 {
-                    // Save the recorded keys to the TextBox
-                    FinishRecording(textBox);
-                }
-                else if (key == Key.Escape)
-                {
-                    // Cancel recording and keep the previous value
-                    AbortRecording(textBox);
-                }
-                else
-                {
-                    //// Add the key to the set if it's not already there
-                    if ((DateTime.Now - (lastRecordingTime ?? DateTime.Now)).TotalMilliseconds > 1000)
-                    {
-                        ResetRecording(textBox);
-                    }
-                    if (!pressedKeys.Contains(key))
-                    {
-                        pressedKeys.Add(key);
-                        textBox.Text = FormatShortcutKeys(pressedKeys);
-                        lastRecordingTime = DateTime.Now;
-                    }
+                    case ShortcutEvent.Cancelled:
+                        AbortRecording(textBox);
+                        break;
+                    case ShortcutEvent.Updated:
+                        textBox.Text = FormatShortcutKeys(keys);
+                        break;
+                    case ShortcutEvent.Finished:
+                        textBox.Text = FormatShortcutKeys(keys);
+                        FinishRecording(textBox);
+                        break;
                 }
             });
         }
 
-        private void OnLostFocus(object sender, EventArgs e)
+        private void OnWindowDeactivated(object sender, EventArgs e)
         {
             Trace.WriteLine("Lost FOCUS");
             if (currentTextBox != null)
             {
                 AbortRecording(currentTextBox);
+                shortcutRecorder.StopRecording();
             }
         }
 
-        private void ClearRecording(object sender, RoutedEventArgs e)
-        {
-            ResetRecording((TextBox)sender);
-        }
-
-
-        private string FormatShortcutKeys(HashSet<Key> keys)
+        private string FormatShortcutKeys(List<Key> keys)
         {
             // Convert the keys to a display-friendly string
             List<string> keyNames = new();
@@ -167,25 +151,20 @@ namespace Circle_2
             return string.Join(" + ", keyNames);
         }
 
-        private void ResetRecording(TextBox textBox)
-        {
-            pressedKeys.Clear();
-            Trace.WriteLine("ResetRecording: TextboxValue: " + textBoxValue);
-            textBox.Text = "";
-        }
-
         private void FinishRecording(TextBox textBox)
         {
-            keyboardHelper.StopRecording();
-            textBox.Text = FormatShortcutKeys(pressedKeys);
             Trace.WriteLine("StopRecording: TextboxValue: " + textBoxValue);
             CleanUpRecording();
+        }
+
+        private void ClearRecording(object sender, RoutedEventArgs e)
+        {
+            ((TextBox)sender).Text = "";
         }
 
 
         private void AbortRecording(TextBox textBox)
         {
-            keyboardHelper.StopRecording();
             textBox.Text = textBoxValue;
 
             Trace.WriteLine("AbortRecording: TextboxValue: " + textBoxValue);
@@ -195,7 +174,6 @@ namespace Circle_2
         private void CleanUpRecording()
         {
             isRecording = false;
-            pressedKeys.Clear();
             textBoxValue = "";
             Keyboard.ClearFocus();
             currentTextBox = null;

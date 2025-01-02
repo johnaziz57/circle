@@ -7,7 +7,7 @@
         xmlns:components="clr-namespace:Circle_2.Components"
         mc:Ignorable="d"
         SizeToContent="WidthAndHeight"
-        Deactivated="OnLostFocus"
+        Deactivated="OnWindowDeactivated"
         xmlns:tb="http://www.hardcodet.net/taskbar">
     <Window.Resources>
         <ResourceDictionary>

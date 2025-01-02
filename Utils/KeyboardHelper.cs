@@ -11,7 +11,10 @@ namespace Circle_2.Utils
         public delegate void OnKeyPressed(Key key);
 
         private const int WH_KEYBOARD_LL = 13;
+
+        //TODO add notification when key is down or up
         private const int WM_KEYDOWN = 0x0100;
+        private const int WM_KEYUP = 0x0101;
 
         private IntPtr _hookID = IntPtr.Zero;
         private OnKeyPressed? onKeyPressed = null;
@@ -41,12 +44,8 @@ namespace Circle_2.Utils
         private IntPtr HookCallback(
             int nCode, IntPtr wParam, IntPtr lParam)
         {
-            //if (nCode >= 0 && wParam == WM_KEYDOWN)
-            //{
             int vkCode = Marshal.ReadInt32(lParam);
             onKeyPressed?.Invoke(KeyInterop.KeyFromVirtualKey(vkCode));
-
-            //}
             return -1;
         }
 
