@@ -43,27 +43,28 @@
         <Label Content="Move to Left" Margin="4" Grid.Row="0" Grid.Column="0" Style="{StaticResource LabelStyle}"/>
         <Image Source="{StaticResource to_leftDrawingImage}" Width="32" Height="32" Margin="4" Grid.Row="0" Grid.Column="1" />
         <components:ClearableTextBox Grid.Row="0" Grid.Column="2" Text="To left" GotKeyboardFocus="StartRecording" 
-                                         OnClearClicked="ClearRecording"/>
+                                         OnClearClicked="ClearRecording" LostKeyboardFocus="OnLostKeyboardFocus"/>
 
         <!-- Second Row -->
         <Label Content="Move to Right" Margin="4" Grid.Row="1" Grid.Column="0" Style="{StaticResource LabelStyle}"/>
         <Image Source="{StaticResource to_rightDrawingImage}" Width="32" Height="32" Margin="4" Grid.Row="1" Grid.Column="1" />
-        <components:ClearableTextBox Grid.Row="1" Grid.Column="2" Text="To right" GotKeyboardFocus="StartRecording"/>
-
+        <components:ClearableTextBox Grid.Row="1" Grid.Column="2" Text="To right" GotKeyboardFocus="StartRecording" 
+                                         OnClearClicked="ClearRecording" LostKeyboardFocus="OnLostKeyboardFocus"/>
         <!-- Third Row -->
         <Label Content="Move to Bottom" Margin="4" Grid.Row="2" Grid.Column="0" Style="{StaticResource LabelStyle}"/>
         <Image Source="{StaticResource to_bottomDrawingImage}" Width="32" Height="32" Margin="4" Grid.Row="2" Grid.Column="1" />
-        <components:ClearableTextBox Grid.Row="2" Grid.Column="2" Text="To top" GotKeyboardFocus="StartRecording"/>
-
+        <components:ClearableTextBox Grid.Row="2" Grid.Column="2" Text="To top" GotKeyboardFocus="StartRecording" 
+                                         OnClearClicked="ClearRecording" LostKeyboardFocus="OnLostKeyboardFocus"/>
         <!-- Fourth Row -->
         <Label Content="Move to Top" Margin="4" Grid.Row="3" Grid.Column="0" Style="{StaticResource LabelStyle}"/>
         <Image Source="{StaticResource to_topDrawingImage}" Width="32" Height="32" Margin="4" Grid.Row="3" Grid.Column="1" />
-        <components:ClearableTextBox Grid.Row="3" Grid.Column="2" Text="To bottom" GotKeyboardFocus="StartRecording"/>
-
+        <components:ClearableTextBox Grid.Row="3" Grid.Column="2" Text="To bottom" GotKeyboardFocus="StartRecording" 
+                                         OnClearClicked="ClearRecording" LostKeyboardFocus="OnLostKeyboardFocus"/>
         <!-- Fifth Row -->
         <Label Content="Maximize" Margin="4" Grid.Row="4" Grid.Column="0" Style="{StaticResource LabelStyle}"/>
         <Image Source="{StaticResource to_maximizeDrawingImage}" Width="32" Height="32" Margin="4" Grid.Row="4" Grid.Column="1" />
-        <components:ClearableTextBox Grid.Row="4" Grid.Column="2" Text="To left" GotKeyboardFocus="StartRecording"/>
+        <components:ClearableTextBox Grid.Row="4" Grid.Column="2" Text="To left" GotKeyboardFocus="StartRecording" 
+                                         OnClearClicked="ClearRecording" LostKeyboardFocus="OnLostKeyboardFocus"/>
 
         <!-- Sixth Row: Start on Windows Startup Checkbox -->
         <CheckBox x:Name="StartupCheckbox" 

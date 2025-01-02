@@ -19,9 +19,15 @@ namespace Circle_2.Components
             new PropertyMetadata(string.Empty));
 
         public static readonly DependencyProperty GotKeyboardFocusProperty = DependencyProperty.Register(
-            nameof(GotKeyboardFocus),//name of the property
-            typeof(RoutedEventHandler), // type of property
-            typeof(ClearableTextBox), // owner name of the property
+            nameof(GotKeyboardFocus),
+            typeof(RoutedEventHandler),
+            typeof(ClearableTextBox),
+            new PropertyMetadata(null));
+
+        public static readonly DependencyProperty LostKeyboardFocusProperty = DependencyProperty.Register(
+            nameof(LostKeyboardFocus),
+            typeof(RoutedEventHandler),
+            typeof(ClearableTextBox),
             new PropertyMetadata(null));
 
         public static readonly DependencyProperty OnClearClickedProperty = DependencyProperty.Register(
@@ -40,6 +46,12 @@ namespace Circle_2.Components
         {
             get => (RoutedEventHandler)GetValue(GotKeyboardFocusProperty);
             set => SetValue(GotKeyboardFocusProperty, value);
+        }
+
+        public new RoutedEventHandler LostKeyboardFocus
+        {
+            get => (RoutedEventHandler)GetValue(LostKeyboardFocusProperty);
+            set => SetValue(LostKeyboardFocusProperty, value);
         }
 
         public RoutedEventHandler OnClearClicked
@@ -84,6 +96,7 @@ namespace Circle_2.Components
         private void TextInput_LostKeyboardFocus(object sender, RoutedEventArgs e)
         {
             InputTextBox.Background = InactiveBrush;
+            LostKeyboardFocus(sender, e);
         }
 
         private void ClearButton_OnClearClicked(object sender, RoutedEventArgs e)

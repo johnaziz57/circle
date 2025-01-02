@@ -65,6 +65,7 @@ namespace Circle_2.Logic
 
         public void StopRecording()
         {
+            Trace.WriteLine("Stopped recording");
             keyboardHelper.StopRecording();
         }
 

@@ -23,7 +23,6 @@ namespace Circle_2
     public partial class MainWindow : Window
     {
         private bool isRecording = false;
-        private DateTime? lastRecordingTime = null;
         private string textBoxValue = "";
         private TextBox? currentTextBox = null;
         private ShortcutRecorder shortcutRecorder = new ShortcutRecorder();
@@ -101,7 +100,6 @@ namespace Circle_2
             if (!isRecording) // TODO do something when the user is already recording
             {
                 isRecording = true;
-                lastRecordingTime = DateTime.Now;
                 textBoxValue = textBox.Text;
                 Trace.WriteLine("StartRecording 2: TextboxValue: " + textBoxValue);
 
@@ -126,13 +124,21 @@ namespace Circle_2
             });
         }
 
-        private void OnWindowDeactivated(object sender, EventArgs e)
+        private void OnLostKeyboardFocus(object sender, RoutedEventArgs e)
         {
-            Trace.WriteLine("Lost FOCUS");
+            Trace.WriteLine("OnLostKeyboardFocus");
             if (currentTextBox != null)
             {
                 AbortRecording(currentTextBox);
-                shortcutRecorder.StopRecording();
+            }
+        }
+
+        private void OnWindowDeactivated(object sender, EventArgs e)
+        {
+            Trace.WriteLine("OnWindowDeactivated");
+            if (currentTextBox != null)
+            {
+                AbortRecording(currentTextBox);
             }
         }
 
@@ -153,8 +159,9 @@ namespace Circle_2
 
         private void FinishRecording(TextBox textBox)
         {
-            Trace.WriteLine("StopRecording: TextboxValue: " + textBoxValue);
+            Trace.WriteLine("FinishRecording: TextboxValue: " + textBoxValue);
             CleanUpRecording();
+            Keyboard.ClearFocus();
         }
 
         private void ClearRecording(object sender, RoutedEventArgs e)
@@ -165,9 +172,9 @@ namespace Circle_2
 
         private void AbortRecording(TextBox textBox)
         {
+            shortcutRecorder.StopRecording();
             textBox.Text = textBoxValue;
 
-            Trace.WriteLine("AbortRecording: TextboxValue: " + textBoxValue);
             CleanUpRecording();
         }
 
@@ -175,7 +182,6 @@ namespace Circle_2
         {
             isRecording = false;
             textBoxValue = "";
-            Keyboard.ClearFocus();
             currentTextBox = null;
         }
     }
