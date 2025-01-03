@@ -7,6 +7,7 @@ using System.Diagnostics;
 using Circle_2.Components;
 using Circle_2.Logic;
 using static Circle_2.Logic.ShortcutRecorder;
+using IWshRuntimeLibrary;
 
 namespace Circle_2
 {
@@ -40,18 +41,13 @@ namespace Circle_2
                 // The link should be added here
                 // C:\Users\John\AppData\Roaming\Microsoft\Windows\Start Menu\Programs\Startup
                 string startupFolder = Environment.GetFolderPath(Environment.SpecialFolder.Startup);
-                string shortcutPath = Path.Combine(startupFolder, "Circle-2.lnk");
+                string shortcutPath = Path.Combine(startupFolder, "Circle.lnk");
 
-                // Path to the executable
-                string exePath = System.Reflection.Assembly.GetExecutingAssembly().Location;
-
-                using (StreamWriter writer = new StreamWriter(shortcutPath))
-                {
-                    writer.WriteLine("[InternetShortcut]");
-                    writer.WriteLine($"URL=file:///{exePath.Replace("\\", "/")}");
-                    writer.WriteLine("IconIndex=0");
-                    writer.WriteLine($"IconFile={exePath}");
-                }
+                WshShell shell = new WshShell();
+                IWshShortcut shortcut = shell.CreateShortcut(shortcutPath);
+                shortcut.TargetPath = Environment.ProcessPath;
+                Trace.WriteLine("Shortcut Location: " + System.Reflection.Assembly.GetExecutingAssembly().Location);
+                shortcut.Save();
             }
             catch (Exception ex)
             {
@@ -66,9 +62,9 @@ namespace Circle_2
                 string startupFolder = Environment.GetFolderPath(Environment.SpecialFolder.Startup);
                 string shortcutPath = Path.Combine(startupFolder, "Circle-2.lnk");
 
-                if (File.Exists(shortcutPath))
+                if (System.IO.File.Exists(shortcutPath))
                 {
-                    File.Delete(shortcutPath);
+                    System.IO.File.Delete(shortcutPath);
                     MessageBox.Show("Application removed from startup.");
                 }
             }
@@ -84,7 +80,7 @@ namespace Circle_2
             string shortcutPath = Path.Combine(startupFolder, "Circle-2.lnk");
 
             // Check if the shortcut file exists
-            return File.Exists(shortcutPath);
+            return System.IO.File.Exists(shortcutPath);
         }
 
 
