@@ -1,7 +1,6 @@
 ﻿### TODO
 
 1. Save/Register the new hotkeys after they have changed
-
 1. Move the recording logic within the clearable textbox
 1. Fix textbox background colour doesn't change back when pressing ESC
 1. Allow only one non-modifier key when recording shortcuts

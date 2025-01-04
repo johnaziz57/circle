@@ -1,9 +1,13 @@
-﻿using System.Windows;
+﻿using System.Diagnostics;
+using System.IO;
+using System.Windows;
 using System.Windows.Input;
 using Circle_2.Models;
 using Circle_2.Utils;
+using Newtonsoft.Json;
 using NHotkey;
 using NHotkey.Wpf;
+using System.Linq;
 
 namespace Circle_2.Logic
 {
@@ -22,12 +26,71 @@ namespace Circle_2.Logic
         public void OnAppLoaded()
         {
             HotkeyManager.HotkeyAlreadyRegistered += HotkeyManager_HotkeyAlreadyRegistered;
+            LoadGestures();
+        }
 
-            HotkeyManager.Current.AddOrReplace("LeftGesture", LeftGesture, OnMoveWindowLeftGesture);
-            HotkeyManager.Current.AddOrReplace("RightGesture", RightGesture, OnMoveWindowRightGesture);
-            HotkeyManager.Current.AddOrReplace("MaximizeGesture", MaximizeGesture, OnMaximizeWindowGesture);
-            HotkeyManager.Current.AddOrReplace("TopGesture", TopGesture, OnMoveWindowTopGesture);
-            HotkeyManager.Current.AddOrReplace("BottomGetsure", BottomGetsure, OnMoveWindowBottomGesture);
+        private void LoadGestures()
+        {
+            List<Gesture> gestures = LoadPreferences();
+
+            foreach (var gesture in gestures)
+            {
+                Trace.WriteLine(gesture.type);
+                if (gesture.shortcut == null) continue;
+                var shortcut = gesture.shortcut;
+
+                ModifierKeys modifiers = shortcut.modifierKeys.Aggregate((current, next) => current | next); ;
+                KeyGesture keyGesture = new KeyGesture(gesture.shortcut.key, modifiers);
+                EventHandler<HotkeyEventArgs> handler = GetGestureHandler(gesture.type);
+                HotkeyManager.Current.AddOrReplace(gesture.type.ToString(), keyGesture, handler);
+            }
+        }
+
+
+        private List<Gesture> LoadPreferences()
+        {
+            string preferencesPath = "preferences.json";
+            if (!File.Exists(preferencesPath))
+            {
+                List<Gesture> newGestures = [
+                    new Gesture(GestureType.MoveLeft, new Shortcut(Key.Left, [ModifierKeys.Windows, ModifierKeys.Alt])),
+                    new Gesture(GestureType.MoveRight, new Shortcut(Key.Right, [ModifierKeys.Windows, ModifierKeys.Alt])),
+                    new Gesture(GestureType.MoveTop, new Shortcut(Key.Up, [ModifierKeys.Windows, ModifierKeys.Alt])),
+                    new Gesture(GestureType.MoveBottom, new Shortcut(Key.Down, [ModifierKeys.Windows, ModifierKeys.Alt])),
+                    new Gesture(GestureType.Maximize, new Shortcut(Key.Enter, [ModifierKeys.Windows, ModifierKeys.Alt]))
+                ];
+
+                string json = JsonConvert.SerializeObject(newGestures, Formatting.Indented);
+
+                // Write the JSON data to a new file
+                File.WriteAllText(preferencesPath, json);
+
+                Trace.WriteLine("Preferences file created with an empty list of gestures.");
+            }
+
+            using StreamReader r = new StreamReader(preferencesPath);
+            List<Gesture> savedGestures = JsonConvert.DeserializeObject<List<Gesture>>(r.ReadToEnd()) ?? [];
+            Trace.WriteLine(savedGestures.ToString());
+            return savedGestures;
+        }
+
+        private EventHandler<HotkeyEventArgs>? GetGestureHandler(GestureType type)
+        {
+            switch (type)
+            {
+                case GestureType.MoveLeft:
+                    return OnMoveWindowLeftGesture;  
+                case GestureType.MoveRight:
+                    return OnMoveWindowRightGesture;
+                case GestureType.MoveTop:
+                    return OnMoveWindowTopGesture; 
+                case GestureType.MoveBottom:
+                    return OnMoveWindowBottomGesture;
+                case GestureType.Maximize:
+                    return OnMaximizeWindowGesture;
+                default:
+                    return null;
+            }
         }
 
         private void HotkeyManager_HotkeyAlreadyRegistered(object sender, HotkeyAlreadyRegisteredEventArgs e)
