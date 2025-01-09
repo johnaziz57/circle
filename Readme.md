@@ -1,4 +1,24 @@
-﻿### TODO
+﻿This repo is just the MacOS amazing [Rectangle](https://github.com/rxhanson/Rectangle) program but for Windows called Circle
+Windows 11 already have the support for this. Just use (win + direction) to move windows around.
+
+## Sad backstory
+### (Please play your smallest violin when reading this to get in the mood)
+
+I switched my main personal driver from MacOS to Windows. 
+Besides the obvious pitfalls of Windows and Microsoft as a company in general, I was furious that Windows 10 doesn't have any keyboard shortcuts
+for moving windows around when using multiple monitors. 
+I also don't want to upgrade to Windows 11 which is full of Microsft lovely even more toxic bloatware.
+So here we are, I embarked on my own journey to implement something similar.
+
+This is by no way finished, there are a few things still to do.
+I am not sure I have enough motiviation to finish it because Windows 10 is being used less and less every day and Windows 11 supports this by default.
+For now, I think it just does the job.
+
+Thanks for reading :bow:
+
+
+
+### TODO
 
 1. Save/Register the new hotkeys after they have changed
 1. Move the recording logic within the clearable textbox

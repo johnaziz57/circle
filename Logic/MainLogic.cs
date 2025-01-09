@@ -79,11 +79,11 @@ namespace Circle_2.Logic
             switch (type)
             {
                 case GestureType.MoveLeft:
-                    return OnMoveWindowLeftGesture;  
+                    return OnMoveWindowLeftGesture;
                 case GestureType.MoveRight:
                     return OnMoveWindowRightGesture;
                 case GestureType.MoveTop:
-                    return OnMoveWindowTopGesture; 
+                    return OnMoveWindowTopGesture;
                 case GestureType.MoveBottom:
                     return OnMoveWindowBottomGesture;
                 case GestureType.Maximize:
