@@ -16,6 +16,9 @@ For now, I think it just does the job.
 
 Thanks for reading :bow:
 
+## How to use
+Just clone this sad slob of code and open it in Visual Studio (or whatever IDE that you like to torture yourself with) and then build and voila.
+Can be easier, but I don't care that much yet.
 
 
 ### TODO
